@@ -1,0 +1,63 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Container, PostCard } from '../components';
+import appwriteService from '../appwrite/config';
+
+function MyPost() {
+  const [userPosts, setUserPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const userData = useSelector((state) => state.auth.userData);
+
+  useEffect(() => {
+    if (userData?.$id) {
+      appwriteService
+        .getPosts([])
+        .then((response) => {
+          if (response?.documents) {
+            const filteredPosts = response.documents.filter(
+              (post) => post.userId === userData.$id
+            );
+            setUserPosts(filteredPosts);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [userData]);
+
+  return (
+    <div className="w-full py-8">
+      <Container>
+        <h2 className="text-2xl font-semibold text-indigo-400 mb-6">My Posts</h2>
+
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="w-full h-52 rounded-lg bg-slate-800 animate-pulse"
+              >
+                <div className="h-36 bg-slate-700 rounded-t-lg" />
+                <div className="p-4 space-y-2">
+                  <div className="h-4 bg-slate-600 rounded w-3/4" />
+                  <div className="h-3 bg-slate-600 rounded w-1/2" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : userPosts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {userPosts.map((post) => (
+              <PostCard key={post.$id} {...post} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-sm">You haven’t posted anything yet.</p>
+        )}
+      </Container>
+    </div>
+  );
+}
+
+export default MyPost;
