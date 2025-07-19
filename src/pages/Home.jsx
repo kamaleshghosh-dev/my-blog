@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import appwriteService from '../appwrite/config';
 import { Container, PostCard } from '../components';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setPosts } from '../store/postslice';
 
 function Home() {
-  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const authStatus = useSelector((state) => state.auth.status);
-
+  const posts = useSelector((state) => state.post.posts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  if (authStatus) {
-    setLoading(true);
-    appwriteService.getPosts().then((response) => {
-      if (response?.documents) {
-        const sortedPosts = response.documents.sort((a, b) =>
-        new Date(b.$createdAt) - new Date(a.$createdAt)
-      );
-      setPosts(sortedPosts.slice(0,8));
-      }
-    }).finally(() => setLoading(false));
-  } else {
-    setPosts([]);
-    setLoading(false);
-  }
-}, [authStatus]);
+    if (authStatus) {
+      setLoading(true);
+      appwriteService.getPosts()
+        .then((response) => {
+          if (response?.documents) {
+            dispatch(setPosts(response.documents));
+          }
+        })
+        .finally(() => setLoading(false));
+    } else {
+      dispatch(setPosts([])); // clear posts on logout
+      setLoading(false);
+    }
+  }, [authStatus, dispatch]);
+
+  const sortedPosts = useMemo(() => {
+    return [...posts]
+      .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt))
+      .slice(0, 8);
+  }, [posts]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-gray-100 py-12">
@@ -49,9 +54,9 @@ function Home() {
               </div>
             ))}
           </div>
-        ) : posts.length > 0 ? (
+        ) : sortedPosts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {posts.map((post) => (
+            {sortedPosts.map((post) => (
               <PostCard key={post.$id} {...post} />
             ))}
           </div>

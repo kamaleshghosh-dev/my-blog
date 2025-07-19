@@ -29,14 +29,14 @@ function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
       <div className="w-full max-w-md bg-slate-900 border border-slate-700 p-8 sm:p-10 rounded-xl shadow-lg text-gray-100">
-        {/* Logo */}
+        
         <div className="mb-4 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">
             <Logo width="100%" />
           </span>
         </div>
 
-        {/* Heading */}
+      
         <h2 className="text-center text-2xl font-bold text-indigo-400 tracking-tight mb-2">
           Sign up to create account
         </h2>
@@ -50,12 +50,12 @@ function Signup() {
           </Link>
         </p>
 
-        {/* Error */}
+        
         {error && (
           <p className="text-red-500 text-sm text-center mb-4">{error}</p>
         )}
 
-        {/* Form */}
+    
         <form onSubmit={handleSubmit(create)} className="space-y-5">
           <Input
             label="Full Name"

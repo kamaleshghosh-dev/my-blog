@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, PostCard } from '../components';
 import appwriteService from '../appwrite/config';
+import { setPosts } from '../store/postslice'; 
 
 function MyPost() {
-  const [userPosts, setUserPosts] = useState([]);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const userData = useSelector((state) => state.auth.userData);
+  const allPosts = useSelector((state) => state.post.posts);
+  const userPosts = allPosts.filter((post) => post.userId === userData?.$id);
 
   useEffect(() => {
     if (userData?.$id) {
@@ -14,17 +17,14 @@ function MyPost() {
         .getPosts([])
         .then((response) => {
           if (response?.documents) {
-            const filteredPosts = response.documents.filter(
-              (post) => post.userId === userData.$id
-            );
-            setUserPosts(filteredPosts);
+            dispatch(setPosts(response.documents)); 
           }
         })
         .finally(() => {
           setLoading(false);
         });
     }
-  }, [userData]);
+  }, [userData, dispatch]);
 
   return (
     <div className="w-full py-8">
