@@ -2,21 +2,17 @@ import React, {useEffect, useState} from 'react'
 import {Container, PostForm} from '../components'
 import appwriteService from "../appwrite/config";
 import { useNavigate,  useParams } from 'react-router-dom';
-import { updatePost } from '../store/postslice';
-import { useDispatch } from 'react-redux';
 
 function EditPost() {
-    
+    const [post, setPosts] = useState(null)
     const {slug} = useParams()
     const navigate = useNavigate()
-    const dispatch=useDispatch()
-
 
     useEffect(() => {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
                 if (post) {
-                    dispatch(updatePost(post))
+                    setPosts(post)
                 }
             })
         } else {

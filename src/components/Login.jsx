@@ -28,7 +28,8 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-700 rounded-xl p-8 sm:p-10 shadow-lg text-gray-100">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-700 rounded-xl p-8 sm:p-10 shadow-lg text-gray-100 
+        transform transition duration-500   hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">

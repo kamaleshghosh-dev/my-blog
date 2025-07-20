@@ -40,7 +40,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900 border-b border-slate-700 shadow-md 
-    hover:shadow-xl transition-shadow duration-300 rounded-xl bg-slate-900 bg-opacity-95 backdrop-blur">
+    hover:shadow-xl transition-shadow duration-300 rounded-xl bg-slate-900 bg-opacity-95 backdrop-blur  hover:shadow-indigo-500/20">
       <Container className="max-w-7xl mx-auto px-4">
         <nav className="flex items-center justify-between py-4">
           {/* Logo */}
