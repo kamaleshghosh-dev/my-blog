@@ -39,7 +39,7 @@ function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
       <div className="w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-indigo-500/30 rounded-xl p-8 sm:p-10 shadow-xl text-gray-100 
-        transform transition duration-500 hover:scale-105 hover:-translate-y-1 hover:rotate-[-1deg] hover:shadow-indigo-500/30">
+        transform transition duration-500 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">
 
         
         <div className="mb-4 flex justify-center">
@@ -112,7 +112,7 @@ function Login() {
             className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 rounded-md transition shadow-sm border hover:scale-[1.02] hover:shadow-md"
           >
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+              src="https://static.dezeen.com/uploads/2025/05/sq-google-g-logo-update_dezeen_2364_col_0-852x852.jpg"
               alt="Google logo"
               className="w-5 h-5"
             />

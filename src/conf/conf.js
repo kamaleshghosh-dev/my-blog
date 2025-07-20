@@ -5,8 +5,8 @@ const conf = {
   appwriteCollectionId: String(import.meta.env.VITE_APPWRITE_COLLECTION_ID),
   appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
 
-  successRedirectUrl: String(import.meta.env.VITE_SUCCESS_REDIRECT_URL),
-  failureRedirectUrl: String(import.meta.env.VITE_FAILURE_REDIRECT_URL),
+  successRedirectUrl: import.meta.env.VITE_SUCCESS_REDIRECT_URL,
+  failureRedirectUrl: import.meta.env.VITE_FAILURE_REDIRECT_URL,
 };
 
 export default conf;
