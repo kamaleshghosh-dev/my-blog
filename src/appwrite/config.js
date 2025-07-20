@@ -1,6 +1,8 @@
 import conf from '../conf/conf.js';
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
+
+
 export class Service{
     client = new Client();
     databases;
@@ -103,9 +105,9 @@ export class Service{
             return await this.bucket.createFile(
                 conf.appwriteBucketId,
                 ID.unique(),
-                file,[
-                Permission.read(Role.any()) 
-    ]
+                file,
+                 
+    
             )
         } catch (error) {
             console.log("Appwrite serive :: uploadFile :: error", error);
