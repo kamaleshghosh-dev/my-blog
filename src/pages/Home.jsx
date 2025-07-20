@@ -3,28 +3,25 @@ import appwriteService from '../appwrite/config';
 import { Container, PostCard } from '../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPosts } from '../store/postslice';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [loading, setLoading] = useState(true);
   const authStatus = useSelector((state) => state.auth.status);
   const posts = useSelector((state) => state.post.posts);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (authStatus) {
-      setLoading(true);
-      appwriteService.getPosts()
-        .then((response) => {
-          if (response?.documents) {
-            dispatch(setPosts(response.documents));
-          }
-        })
-        .finally(() => setLoading(false));
-    } else {
-      dispatch(setPosts([])); // clear posts on logout
-      setLoading(false);
-    }
-  }, [authStatus, dispatch]);
+    setLoading(true);
+    appwriteService.getPosts()
+      .then((response) => {
+        if (response?.documents) {
+          dispatch(setPosts(response.documents));
+        }
+      })
+      .finally(() => setLoading(false));
+  }, [dispatch]);
 
   const sortedPosts = useMemo(() => {
     return [...posts]
@@ -35,6 +32,14 @@ function Home() {
   return (
     <div className="min-h-screen bg-slate-950 text-gray-100 py-12">
       <Container className="max-w-7xl mx-auto px-4">
+        
+        {/* Banner for Guests */}
+        {!authStatus && (
+          <div className="bg-yellow-100 text-yellow-800 p-3 rounded mb-6 text-center text-sm">
+            You’re exploring as a guest !! 
+          </div>
+        )}
+
         <h1 className="text-4xl font-bold text-indigo-400 mb-10 text-center tracking-tight">
           Latest Posts
         </h1>
@@ -55,14 +60,28 @@ function Home() {
             ))}
           </div>
         ) : sortedPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {sortedPosts.map((post) => (
-              <PostCard key={post.$id} {...post} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {sortedPosts.map((post) => (
+                <PostCard key={post.$id} {...post} />
+              ))}
+            </div>
+
+            {/* Explore more button for guests */}
+            {!authStatus && (
+              <div className="text-center">
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-full"
+                >
+                  Sign up to explore more and start posting!
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <h2 className="text-center text-gray-400 text-lg">
-            Login to read posts
+            No posts found.
           </h2>
         )}
       </Container>

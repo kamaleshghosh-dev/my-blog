@@ -6,7 +6,8 @@ function Logo({ width = 'auto', className = '' }) {
       className={`text-indigo-400 font-bold text-xl tracking-tight ${className}`}
       style={{ width }}
     >
-      KamaleshDev
+      DevWaves
+
     </div>
   );
 }
