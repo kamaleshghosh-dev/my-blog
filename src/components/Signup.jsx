@@ -26,18 +26,23 @@ function Signup() {
     }
   };
 
+  const handleGoogleSignup = () => {
+    authService.loginWithGoogle(); 
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
       <div className="w-full max-w-md bg-slate-900 border border-slate-700 rounded-xl p-8 sm:p-10 shadow-lg text-gray-100 
-        transform transition duration-500   hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">
-        
+        transform transition duration-500 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">
+
+       
         <div className="mb-4 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">
             <Logo width="100%" />
           </span>
         </div>
 
-      
+ 
         <h2 className="text-center text-2xl font-bold text-indigo-400 tracking-tight mb-2">
           Sign up to create account
         </h2>
@@ -51,12 +56,12 @@ function Signup() {
           </Link>
         </p>
 
-        
+
         {error && (
           <p className="text-red-500 text-sm text-center mb-4">{error}</p>
         )}
 
-    
+
         <form onSubmit={handleSubmit(create)} className="space-y-5">
           <Input
             label="Full Name"
@@ -96,6 +101,30 @@ function Signup() {
             Create Account
           </Button>
         </form>
+
+  
+        <div className="my-6 text-center text-gray-500 text-sm">— or —</div>
+
+      
+        <div className="flex flex-col items-center bg-slate-800/70 border border-indigo-500/20 rounded-xl p-6 space-y-4 shadow-md hover:shadow-indigo-500/20 transition">
+
+          <p className="text-indigo-400 text-sm font-medium text-center">
+            ✨ Sign up instantly with Google.
+          </p>
+
+          <button
+            onClick={handleGoogleSignup}
+            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 rounded-md transition shadow-sm border hover:scale-[1.02] hover:shadow-md"
+          >
+            <img
+              src="https://static.dezeen.com/uploads/2025/05/sq-google-g-logo-update_dezeen_2364_col_0-852x852.jpg"
+              alt="Google logo"
+              className="w-5 h-5"
+            />
+            Sign up with Google
+          </button>
+        </div>
+        
       </div>
     </div>
   );
