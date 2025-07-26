@@ -34,8 +34,9 @@ export class AuthService {
   }
 
   async loginWithGoogle() {
+    
   try {
-    this.account.createOAuth2Session(
+     this.account.createOAuth2Session(
       'google',
       conf.successRedirectUrl,
       conf.failureRedirectUrl

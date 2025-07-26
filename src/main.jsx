@@ -84,7 +84,7 @@ const router = createBrowserRouter([
     element: (<AuthLayout>
         <MyPost/>
     </AuthLayout>)
-}
+},
     ],
 },
 ])
