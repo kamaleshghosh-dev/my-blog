@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
@@ -18,46 +18,58 @@ export default function PostForm({ post }) {
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  const [loading, setLoading] = useState(false);
 
   const submit = async (data) => {
     if (!userData || !userData.$id) {
-      alert("Please refresh the page , then try again.");
+      alert("Please wait a moment and try again.");
       return;
     }
 
-    if (post) {
-      const file = data.image?.[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
+    setLoading(true);
 
-      if (file) {
-        appwriteService.deleteFile(post.featuredImage);
-      }
+    try {
+      if (post) {
+        // Editing existing post
+        const file = data.image?.[0]
+          ? await appwriteService.uploadFile(data.image[0])
+          : null;
 
-      const dbPost = await appwriteService.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      });
+        if (file) {
+          appwriteService.deleteFile(post.featuredImage);
+        }
 
-      if (dbPost) {
-        navigate(`/post/${dbPost.$id}`);
-      }
-    } else {
-      const file = await appwriteService.uploadFile(data.image[0]);
-
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
-
-        const dbPost = await appwriteService.createPost({
+        const dbPost = await appwriteService.updatePost(post.$id, {
           ...data,
-          userId: userData.$id,
+          featuredImage: file ? file.$id : undefined,
         });
 
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
         }
+      } else {
+        // Creating new post
+        const file = await appwriteService.uploadFile(data.image[0]);
+
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
+
+          const dbPost = await appwriteService.createPost({
+            ...data,
+            userId: userData.$id,
+          });
+
+          if (dbPost) {
+            navigate(`/post/${dbPost.$id}`);
+          }
+        }
       }
+    } catch (error) {
+      console.error("Error submitting post:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,7 +121,6 @@ export default function PostForm({ post }) {
           defaultValue={getValues("content")}
         />
       </div>
-
       <div className="w-1/3 px-2">
         <Input
           label="Featured Image :"
@@ -137,8 +148,9 @@ export default function PostForm({ post }) {
           type="submit"
           bgColor={post ? "bg-green-500" : undefined}
           className="w-full"
+          disabled={loading}
         >
-          {post ? "Update" : "Submit"}
+          {loading ? "Submitting..." : post ? "Update" : "Submit"}
         </Button>
       </div>
     </form>
