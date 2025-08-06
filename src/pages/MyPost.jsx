@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Container, PostCard } from '../components';
-import appwriteService from '../appwrite/config';
-import { setPosts } from '../store/postslice'; 
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Container, PostCard } from "../components";
+import appwriteService from "../appwrite/config";
+import { setPosts } from "../store/postslice";
 
 function MyPost() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function MyPost() {
         .getPosts([])
         .then((response) => {
           if (response?.documents) {
-            dispatch(setPosts(response.documents)); 
+            dispatch(setPosts(response.documents));
           }
         })
         .finally(() => {
@@ -29,7 +29,9 @@ function MyPost() {
   return (
     <div className="w-full py-8">
       <Container>
-        <h2 className="text-2xl font-semibold text-indigo-400 mb-6">My Posts</h2>
+        <h2 className="text-2xl font-semibold text-indigo-400 mb-6">
+          My Posts
+        </h2>
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -53,7 +55,9 @@ function MyPost() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-400 text-sm">You haven’t posted anything yet.</p>
+          <p className="text-gray-400 text-sm">
+            You haven’t posted anything yet.
+          </p>
         )}
       </Container>
     </div>

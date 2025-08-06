@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import appwriteService from '../appwrite/config';
-import { Container, PostCard } from '../components';
-import { useSelector, useDispatch } from 'react-redux';
-import { setPosts } from '../store/postslice';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import appwriteService from "../appwrite/config";
+import { Container, PostCard } from "../components";
+import { useSelector, useDispatch } from "react-redux";
+import { setPosts } from "../store/postslice";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -14,29 +14,28 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
-    appwriteService.getPosts()
+    appwriteService
+      .getPosts()
       .then((response) => {
         if (response?.documents) {
-          dispatch(setPosts(response.documents));
+          // Sort posts by newest first
+          const sorted = [...response.documents].sort(
+            (a, b) => new Date(b.$createdAt) - new Date(a.$createdAt)
+          );
+          dispatch(setPosts(sorted));
         }
       })
       .finally(() => setLoading(false));
   }, [dispatch]);
 
-  const sortedPosts = useMemo(() => {
-    return [...posts]
-      .sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt))
-      .slice(0, 8);
-  }, [posts]);
+  const latestPosts = posts.slice(0, 8);
 
   return (
     <div className="min-h-screen bg-slate-950 text-gray-100 py-12">
       <Container className="max-w-7xl mx-auto px-4">
-        
-        {/* Banner for Guests */}
         {!authStatus && (
           <div className="bg-yellow-100 text-yellow-800 p-3 rounded mb-6 text-center text-sm">
-            You’re exploring as a guest !! 
+            You’re exploring as a guest !!
           </div>
         )}
 
@@ -59,19 +58,18 @@ function Home() {
               </div>
             ))}
           </div>
-        ) : sortedPosts.length > 0 ? (
+        ) : latestPosts.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {sortedPosts.map((post) => (
+              {latestPosts.map((post) => (
                 <PostCard key={post.$id} {...post} />
               ))}
             </div>
 
-            {/* Explore more button for guests */}
             {!authStatus && (
               <div className="text-center">
                 <button
-                  onClick={() => navigate('/signup')}
+                  onClick={() => navigate("/signup")}
                   className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-full"
                 >
                   Sign up to explore more and start posting!
@@ -80,9 +78,7 @@ function Home() {
             )}
           </>
         ) : (
-          <h2 className="text-center text-gray-400 text-lg">
-            No posts found.
-          </h2>
+          <h2 className="text-center text-gray-400 text-lg">No posts found.</h2>
         )}
       </Container>
     </div>

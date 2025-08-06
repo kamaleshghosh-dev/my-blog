@@ -1,5 +1,5 @@
-import conf from '../conf/conf.js';
-import { Client, Account, ID } from 'appwrite';
+import conf from "../conf/conf.js";
+import { Client, Account, ID } from "appwrite";
 
 export class AuthService {
   client = new Client();
@@ -14,7 +14,12 @@ export class AuthService {
 
   async createAccount({ email, password, name }) {
     try {
-      const userAccount = await this.account.create(ID.unique(), email, password, name);
+      const userAccount = await this.account.create(
+        ID.unique(),
+        email,
+        password,
+        name
+      );
       if (userAccount) {
         return this.login({ email, password });
       } else {
@@ -34,17 +39,16 @@ export class AuthService {
   }
 
   async loginWithGoogle() {
-    
-  try {
-     this.account.createOAuth2Session(
-      'google',
-      conf.successRedirectUrl,
-      conf.failureRedirectUrl
-    );
-  } catch (error) {
-    console.log('Appwrite service :: loginWithGoogle :: error', error);
+    try {
+      this.account.createOAuth2Session(
+        "google",
+        conf.successRedirectUrl,
+        conf.failureRedirectUrl
+      );
+    } catch (error) {
+      console.log("Appwrite service :: loginWithGoogle :: error", error);
+    }
   }
-}
 
   async getCurrentUser() {
     try {

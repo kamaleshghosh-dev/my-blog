@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../Logo';
+import React from "react";
+import { Link } from "react-router-dom";
+import Logo from "../Logo";
 
 function Footer() {
   return (
@@ -14,7 +14,8 @@ function Footer() {
               </div>
               <div>
                 <p className="text-sm text-gray-400">
-                  &copy; {new Date().getFullYear()} KamaleshDev. All rights reserved.
+                  &copy; {new Date().getFullYear()} KamaleshDev. All rights
+                  reserved.
                 </p>
               </div>
             </div>
@@ -27,16 +28,36 @@ function Footer() {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Features</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Features
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Pricing</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Pricing
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Affiliate Program</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Affiliate Program
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Press Kit</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Press Kit
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -49,16 +70,36 @@ function Footer() {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Account</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Account
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Help</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Help
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Contact Us</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Contact Us
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Customer Support</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Customer Support
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -71,13 +112,28 @@ function Footer() {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Terms &amp; Conditions</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Terms &amp; Conditions
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Privacy Policy</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Privacy Policy
+                  </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-300 hover:text-indigo-400 transition" to="/">Licensing</Link>
+                  <Link
+                    className="text-gray-300 hover:text-indigo-400 transition"
+                    to="/"
+                  >
+                    Licensing
+                  </Link>
                 </li>
               </ul>
             </div>

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import './App.css';
-import authService from './appwrite/auth';
-import { login, logout } from './store/authslice';
-import { Footer, Header } from './components';
-import { Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import "./App.css";
+import authService from "./appwrite/auth";
+import { login, logout } from "./store/authslice";
+import { Footer, Header } from "./components";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ function App() {
       .getCurrentUser()
       .then((userData) => {
         if (userData) {
-          dispatch(login( userData ));
+          dispatch(login({ userData }));
         } else {
           dispatch(logout());
         }

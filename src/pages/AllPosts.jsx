@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Container, PostCard } from '../components';
-import appwriteService from '../appwrite/config';
-import { useSelector,useDispatch } from 'react-redux';
-import { setPosts } from '../store/postslice';
+import React, { useState, useEffect } from "react";
+import { Container, PostCard } from "../components";
+import appwriteService from "../appwrite/config";
+import { useSelector, useDispatch } from "react-redux";
+import { setPosts } from "../store/postslice";
 
 function AllPosts() {
- 
-  const [loading,setloading]=useState(true);
+  const [loading, setloading] = useState(true);
   const dispatch = useDispatch();
 
-  const posts = useSelector((state)=>state.post.posts);
-  
-
-
+  const posts = useSelector((state) => state.post.posts);
 
   useEffect(() => {
-    appwriteService.getPosts([]).then((response) => {
-      if (response?.documents) {
-        dispatch (setPosts(response.documents))
-      }
-    }).finally(()=>setloading(false));
+    appwriteService
+      .getPosts([])
+      .then((response) => {
+        if (response?.documents) {
+          const sortedPosts = [...response.documents].sort(
+            (a, b) => new Date(b.$createdAt) - new Date(a.$createdAt) // latest first
+          );
+          dispatch(setPosts(sortedPosts));
+        }
+      })
+      .finally(() => setloading(false));
   }, []);
 
   return (
     <div className="w-full py-8">
       <Container>
-      {loading ? (
+        {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }).map((_, index) => (
               <div
@@ -40,18 +42,18 @@ function AllPosts() {
               </div>
             ))}
           </div>
-        ):posts.length>0 ? (<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {posts.map((post) => (
-            <PostCard key={post.$id} {...post} />
-          ))}
-        </div>):(
-          <p className="text-gray-400 text-sm">You haven’t posted anything yet.</p>
-        ) 
-        }
-      
-        
+        ) : posts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {posts.map((post) => (
+              <PostCard key={post.$id} {...post} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-sm">
+            You haven’t posted anything yet.
+          </p>
+        )}
       </Container>
-
     </div>
   );
 }
